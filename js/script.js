@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const modalTimerId = setTimeout(openModal, 3000);
+    // const modalTimerId = setTimeout(openModal, 3000);
 
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -278,4 +278,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
+    //Slider
+    const slideImg = document.querySelectorAll('.offer__slide'),
+        slidePrevBtn = document.querySelector('.offer__slider-prev'),
+        slideNextBtn = document.querySelector('.offer__slider-next'),
+        currentSlide = document.querySelector('#current'),
+        totalSlide = document.querySelector('#total');
+
+
+    let slideIndex = 1;
+
+    totalSlide.innerHTML = getZero(slideImg.length);
+
+    function showCurrentSlide(index) {
+        if (index > slideImg.length) {
+            slideIndex = 1;
+        } else if (index < 1) {
+            slideIndex = slideImg.length;
+        }
+
+        slideImg.forEach(item => item.style.display = 'none');
+        slideImg[slideIndex - 1].style.display = 'block';
+        currentSlide.innerHTML = getZero(slideIndex);
+    }
+
+    showCurrentSlide(slideIndex);
+
+
+    slideNextBtn.addEventListener('click', () => {
+        showCurrentSlide(++slideIndex);
+
+    });
+    slidePrevBtn.addEventListener('click', () => {
+        showCurrentSlide(--slideIndex);
+
+    });
 });
