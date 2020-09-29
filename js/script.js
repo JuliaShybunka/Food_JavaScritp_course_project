@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     slideNextBtn.addEventListener('click', () => {
-        if (offset == +width.slice(0, width.length - 2) * (slideImg.length - 1)) {
+        if (offset == deleteStr(width) * (slideImg.length - 1)) {
             offset = 0;
         } else {
             offset += +width.slice(0, width.length - 2);
@@ -347,9 +347,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     slidePrevBtn.addEventListener('click', () => {
         if (offset <= 0) {
-            offset = +width.slice(0, width.length - 2) * (slideImg.length - 1);
+            offset = deleteStr(width) * (slideImg.length - 1);
         } else {
-            offset -= +width.slice(0, width.length - 2);
+            offset -= deleteStr(width);
         }
 
         slideField.style.transform = `translateX(-${offset}px)`;
@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let slideTo = e.target.getAttribute('data-dot');
 
             slideIndex = slideTo;
-            offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+            offset = deleteStr(width) * (slideTo - 1);
             slideField.style.transform = `translateX(-${offset}px)`;
 
             slideAddZero();
@@ -390,5 +390,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             currentSlide.textContent = slideIndex;
         }
+    }
+
+    function deleteStr(str) {
+        return +str.replace(/\D/g, "");
     }
 });
