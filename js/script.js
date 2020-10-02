@@ -399,10 +399,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Calculator
     const result = document.querySelector('.calculating__result span');
-    let sex = 'female',
-        ratio = 1.375,
+
+    let sex,
+        ratio,
         height, weight, age;
 
+    if (localStorage.getItem('sex')) {
+        sex = localStorage.getItem('sex');
+    } else {
+        sex = 'female';
+        localStorage.setItem('sex', 'female');
+    }
+
+    if (localStorage.getItem('ratio')) {
+        ratio = localStorage.getItem('ratio');
+    } else {
+        ratio = 'female';
+        localStorage.setItem('ratio', 1.375);
+    }
 
     function calcTotal() {
         if (!sex || !ratio || !height || !weight || !age) {
@@ -417,7 +431,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function initLocalSetting(selector, activeClass) {
+        let elements = document.querySelectorAll(selector);
+        elements.forEach(element => {
+            element.classList.remove(activeClass);
 
+            if (localStorage.getItem('sex') == element.getAttribute('id')) {
+                element.classList.add(activeClass);
+            }
+
+            if (localStorage.getItem('ratio') == element.getAttribute('data-ratio')) {
+                element.classList.add(activeClass);
+            }
+        });
+    }
+
+    initLocalSetting('#gender div', 'calculating__choose-item_active');
+    initLocalSetting('.calculating__choose_big div', 'calculating__choose-item_active');
 
     function getStaticInformation(parentSelector, activeClass) {
         let elements = document.querySelectorAll(`${parentSelector} div`);
@@ -425,9 +455,10 @@ document.addEventListener('DOMContentLoaded', () => {
             elem.addEventListener('click', e => {
                 if (e.target.getAttribute('data-ratio')) {
                     ratio = +e.target.getAttribute('data-ratio');
-                    console.log(ratio);
+                    localStorage.setItem('ratio', +e.target.getAttribute('data-ratio'));
                 } else {
                     sex = e.target.getAttribute('id');
+                    localStorage.setItem('sex', e.target.getAttribute('id'));
                 }
 
                 elements.forEach(item => {
