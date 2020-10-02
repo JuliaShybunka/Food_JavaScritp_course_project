@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    calcTotal();
+
 
     function getStaticInformation(parentSelector, activeClass) {
         let elements = document.querySelectorAll(`${parentSelector} div`);
@@ -449,6 +449,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function getDynamicInformation(selector) {
         const input = document.querySelector(selector);
         input.addEventListener('input', e => {
+
+            if (e.target.value.match(/\D/)) {
+                e.target.style.border = '1px solid red';
+            } else {
+                e.target.style.border = 'none';
+            }
 
             switch (e.target.getAttribute('id')) {
                 case 'weight':
